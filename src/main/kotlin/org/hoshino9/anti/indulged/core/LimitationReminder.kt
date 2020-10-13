@@ -1,17 +1,11 @@
 package org.hoshino9.anti.indulged.core
 
 interface LimitationReminder {
+
     /**
-     * Reminder Level
+     * this function will be called every cycle of the clock
+     * it shouldn't take a long time
+     * returns true if should close the game
      */
-    sealed class Level {
-        /**
-         * remind player should take a rest
-         */
-        data class Info(val rest: Long) : Level()
-
-        object Error : Level()
-    }
-
-    fun remind(level: Level)
+    fun remind(rest: Long): Boolean
 }

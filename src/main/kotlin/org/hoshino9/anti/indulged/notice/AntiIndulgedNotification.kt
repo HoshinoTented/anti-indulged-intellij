@@ -10,10 +10,12 @@ import org.hoshino9.anti.indulged.projectManager
 object AntiIndulgedNotification : LimitationReminder {
     val GROUP: NotificationGroup = NotificationGroup("org.hoshino9.anti.indulged", NotificationDisplayType.BALLOON)
 
-    override fun remind(level: LimitationReminder.Level) {
-        val content = when (level) {
-            is LimitationReminder.Level.Info -> "亲爱的社畜码农，您今日的可用编程时间剩余 ${level.rest} 分钟，请注意休息。"
-            LimitationReminder.Level.Error -> "亲爱的社畜码农，您今日的可用编程时间已用完，请注意休息。"        // this level should close the IDE but not just notify
+    override fun remind(rest: Long): Boolean {
+        val content = when {
+            rest > 0L -> "亲爱的社畜码农，您今日的可用编程时间剩余 ${rest} 分钟，请注意休息。"
+            rest == 0L -> "亲爱的社畜码农，您今日的可用编程时间已用完，请注意休息。"        // close the IDE but not only notify
+
+            else -> TODO("unreachable")
         }
 
         val notification = GROUP.createNotification(content, NotificationType.WARNING)
@@ -23,5 +25,7 @@ object AntiIndulgedNotification : LimitationReminder {
                 Notifications.Bus.notify(notification, it)
             }
         }
+
+        return false            // TODO
     }
 }

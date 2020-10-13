@@ -6,25 +6,31 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
 import org.hoshino9.anti.indulged.core.Clock
-import org.hoshino9.anti.indulged.core.LimitData
 
 @State(
     name = "org.hoshino9.anti.indulged.settings.LimitDataSettings",
-    storages = [Storage("AntiIndulged.xml")]
+    storages = [Storage("antiIndulged.xml")]
 )
 class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
-    private var lastUsed: Long = 0L
-    private var accMinutes: Long = 0L
-    private var limitMinutes: Long = 1L
+    var lastUsed: Long = 0L
+    var accMinutes: Long = 0L
+    var limitMinutes: Long = 5L
+
+    override val cycle: Long
+        get() = 60 * 1000
+
+    override val time: Long
+        get() = accMinutes
+
+    override val rest: Long
+        get() = limitMinutes - accMinutes
 
     override fun getState(): LimitDataSettings? {
         return this
     }
 
     override fun loadState(state: LimitDataSettings) {
-        this.lastUsed = state.lastUsed
-        this.accMinutes = state.lastUsed
-        this.limitMinutes = state.limitMinutes
+        XmlSerializerUtil.copyBean(state, this)
     }
 
     companion object {
@@ -33,9 +39,6 @@ class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
                 return ServiceManager.getService(LimitDataSettings::class.java)
             }
     }
-
-    override val runOut: Boolean
-        get() = accMinutes >= limitMinutes
 
     override fun increase() {
         accMinutes += 1
