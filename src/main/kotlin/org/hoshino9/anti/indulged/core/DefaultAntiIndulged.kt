@@ -14,18 +14,14 @@ class DefaultAntiIndulged(val clock: Clock, val reminder: LimitationReminder) : 
             return
         }
 
-        if (clock.runOut) {
-            stopTiming()
-        }
-
         timer = launch(this.coroutineContext) {
             while (isActive) {
                 val clock = coroutineContext[Clock.Key] ?: throw NoSuchElementException("Clock.Key not found")
 
                 println(clock)
-                reminder.remind(clock.rest)
+                val shouldClose = reminder.remind(clock.rest)
 
-                if (clock.runOut) {
+                if (shouldClose) {
                     stopTiming()
                     break
                 }

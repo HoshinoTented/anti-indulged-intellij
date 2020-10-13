@@ -14,7 +14,7 @@ import org.hoshino9.anti.indulged.core.Clock
 class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
     var lastUsed: Long = 0L
     var accMinutes: Long = 0L
-    var limitMinutes: Long = 5L
+    var limitMinutes: Long = 1L
 
     override val cycle: Long
         get() = 60 * 1000

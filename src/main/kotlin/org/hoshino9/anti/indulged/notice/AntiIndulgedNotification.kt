@@ -4,28 +4,55 @@ import com.intellij.notification.NotificationDisplayType
 import com.intellij.notification.NotificationGroup
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.openapi.progress.Task
+import com.intellij.openapi.project.ProjectManager
+import com.intellij.openapi.ui.DialogBuilder
+import com.intellij.openapi.util.Disposer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.hoshino9.anti.indulged.core.LimitationReminder
 import org.hoshino9.anti.indulged.projectManager
 
 object AntiIndulgedNotification : LimitationReminder {
     val GROUP: NotificationGroup = NotificationGroup("org.hoshino9.anti.indulged", NotificationDisplayType.BALLOON)
 
-    override fun remind(rest: Long): Boolean {
-        val content = when {
-            rest > 0L -> "亲爱的社畜码农，您今日的可用编程时间剩余 ${rest} 分钟，请注意休息。"
-            rest == 0L -> "亲爱的社畜码农，您今日的可用编程时间已用完，请注意休息。"        // close the IDE but not only notify
+    fun forceExit(content: String) {
+        val app = ApplicationManager.getApplication()
 
-            else -> TODO("unreachable")
+        app.invokeLater {
+            DialogBuilder().apply {
+                setTitle("Anti-Indulged")
+                setErrorText(content)
+            }.showAndGet()
+
+            projectManager.openProjects.forEach {
+                if (! it.isDisposed) {
+                    projectManager.closeAndDispose(it)
+                }
+            }
+
+            ApplicationManager.getApplication().exit(true, false, false)
         }
+    }
 
-        val notification = GROUP.createNotification(content, NotificationType.WARNING)
+    override fun remind(rest: Long): Boolean {
+        when (rest) {
+            0L -> {
+                forceExit("亲爱的社畜码农，您今日的可用编程时间已用完，请注意休息。")
+                return true
+            }
 
-        projectManager.openProjects.forEach {
-            it.takeIf { ! it.isDisposed }?.let {
-                Notifications.Bus.notify(notification, it)
+            else -> {
+                val content = "亲爱的社畜码农，您今日的可用编程时间剩余 $rest 分钟，请注意休息。"
+                val notification = GROUP.createNotification(content, NotificationType.WARNING)
+
+                Notifications.Bus.notify(notification)
+
+                return false
             }
         }
-
-        return false            // TODO
     }
 }
