@@ -3,7 +3,7 @@ package org.hoshino9.anti.indulged.core
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class DefaultAntiIndulged(val clock: Clock, val reminder: LimitationReminder) : AntiIndulged, CoroutineScope {
+class DefaultAntiIndulged(val clock: Clock, val factory: ReminderFactory) : AntiIndulged, CoroutineScope {
     private var timer: Job? = null
 
     @Synchronized
@@ -19,14 +19,17 @@ class DefaultAntiIndulged(val clock: Clock, val reminder: LimitationReminder) : 
                 val clock = coroutineContext[Clock.Key] ?: throw NoSuchElementException("Clock.Key not found")
 
                 println(clock)
-                val shouldClose = reminder.remind(clock.rest)
+                val reminder = factory.newInstance(clock.rest)
 
-                if (shouldClose) {
+                if (reminder.shouldClose) {
                     stopTiming()
+                    reminder.remind()
                     break
                 }
 
                 clock.increase()
+                reminder.remind()
+
                 delay(clock.cycle)
             }
         }

@@ -1,15 +1,15 @@
 import kotlinx.coroutines.runBlocking
 import org.hoshino9.anti.indulged.core.Clock
 import org.hoshino9.anti.indulged.core.DefaultAntiIndulged
-import org.hoshino9.anti.indulged.core.LimitationReminder
+import org.hoshino9.anti.indulged.core.ReminderFactory
 import org.junit.Test
 import kotlin.system.measureTimeMillis
 
 class TimerTest {
-    object ConsoleReminder : LimitationReminder {
-        override fun remind(rest: Long): Boolean {
+    object ConsoleReminder : ReminderFactory {
+        override fun newInstance(rest: Long): ReminderFactory.Reminder {
             println(rest)
-            return false
+            return ReminderFactory.Reminder.EMPTY
         }
     }
 
@@ -34,5 +34,10 @@ class TimerTest {
                 anti.join()
             }
         }.run(::println)
+    }
+
+    @Test
+    fun today() {
+        println(org.hoshino9.anti.indulged.today)
     }
 }

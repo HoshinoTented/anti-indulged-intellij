@@ -6,13 +6,14 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
 import org.hoshino9.anti.indulged.core.Clock
+import org.hoshino9.anti.indulged.today
 
 @State(
     name = "org.hoshino9.anti.indulged.settings.LimitDataSettings",
     storages = [Storage("antiIndulged.xml")]
 )
 class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
-    var lastUsed: Long = 0L
+    var lastUpdate: Long = 20201012L
     var accMinutes: Long = 0L
     var limitMinutes: Long = 1L
 
@@ -31,6 +32,12 @@ class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
 
     override fun loadState(state: LimitDataSettings) {
         XmlSerializerUtil.copyBean(state, this)
+
+        val today = today
+        if (today > lastUpdate) {
+            lastUpdate = today
+            accMinutes = 0
+        }
     }
 
     companion object {
@@ -42,9 +49,10 @@ class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
 
     override fun increase() {
         accMinutes += 1
+        lastUpdate = today
     }
 
     override fun toString(): String {
-        return "($lastUsed, $accMinutes, $limitMinutes)"
+        return "($lastUpdate, $accMinutes, $limitMinutes)"
     }
 }
