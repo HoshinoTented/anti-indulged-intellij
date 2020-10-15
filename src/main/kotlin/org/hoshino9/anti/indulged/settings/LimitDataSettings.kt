@@ -15,7 +15,7 @@ import org.hoshino9.anti.indulged.today
 class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
     var lastUpdate: Long = 20201012L
     var accMinutes: Long = 0L
-    var limitMinutes: Long = 1L
+    val limitMinutes: Long = 90L            // 1.5h
 
     override val cycle: Long
         get() = 60 * 1000
@@ -47,6 +47,7 @@ class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
             }
     }
 
+    // TODO: 更新最后使用的时候可能导致凌晨写代码没有重置 accMinutes
     override fun increase() {
         accMinutes += 1
         lastUpdate = today
