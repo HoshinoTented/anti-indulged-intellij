@@ -15,5 +15,5 @@ interface ReminderFactory {
      * this function will be called every cycle of the clock
      * returns true if should close the game
      */
-    fun newInstance(rest: Long): Reminder
+    fun newInstance(clock: Clock): Reminder
 }

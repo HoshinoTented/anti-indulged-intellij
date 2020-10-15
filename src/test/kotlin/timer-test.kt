@@ -13,14 +13,14 @@ class TimerTest {
         }
     }
 
-    data class LimitData(override var time: Long) : Clock {
+    data class LimitData(override var currentTime: Long) : Clock {
         override val cycle: Long
             get() = 15 * 1000
         override val rest: Long
-            get() = 5 - time
+            get() = 5 - currentTime
 
         override fun increase() {
-            time += 1
+            currentTime += 1
         }
 
     }

@@ -12,4 +12,9 @@ interface AntiIndulged {
      * it should stop timing after [startTiming], and write rewrite [LimitData.lastUsed] and [LimitData.accMinutes]
      */
     fun stopTiming()
+
+    /**
+     * return true if current anti-indulged is timming
+     */
+    val isActive: Boolean
 }

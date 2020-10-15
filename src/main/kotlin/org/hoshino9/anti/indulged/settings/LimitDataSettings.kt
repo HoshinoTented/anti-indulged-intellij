@@ -15,12 +15,14 @@ import org.hoshino9.anti.indulged.today
 class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
     var lastUpdate: Long = 20201012L
     var accMinutes: Long = 0L
-    val limitMinutes: Long = 90L            // 1.5h
+    var limitMinutes: Long = 90L            // 1.5h
+
+    override var maximum: Long = limitMinutes
 
     override val cycle: Long
         get() = 60 * 1000
 
-    override val time: Long
+    override val currentTime: Long
         get() = accMinutes
 
     override val rest: Long
@@ -47,9 +49,15 @@ class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
             }
     }
 
-    // TODO: 更新最后使用的时候可能导致凌晨写代码没有重置 accMinutes
     override fun increase() {
-        accMinutes += 1
+        val today = today
+
+        if (today > lastUpdate) {
+            accMinutes = 0
+        } else {
+            accMinutes += 1
+        }
+
         lastUpdate = today
     }
 

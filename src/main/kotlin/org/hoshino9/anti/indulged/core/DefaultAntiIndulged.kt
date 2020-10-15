@@ -6,6 +6,10 @@ import kotlin.coroutines.CoroutineContext
 class DefaultAntiIndulged(val clock: Clock, val factory: ReminderFactory) : AntiIndulged, CoroutineScope {
     private var timer: Job? = null
 
+    override val isActive: Boolean
+        get() = timer?.isActive == true
+
+    // TODO: 考虑改进这个函数的实现
     @Synchronized
     override fun startTiming() {
         println("Trying to start timing...")
@@ -19,7 +23,7 @@ class DefaultAntiIndulged(val clock: Clock, val factory: ReminderFactory) : Anti
                 val clock = coroutineContext[Clock.Key] ?: throw NoSuchElementException("Clock.Key not found")
 
                 println(clock)
-                val reminder = factory.newInstance(clock.rest)
+                val reminder = factory.newInstance(clock)
 
                 if (reminder.shouldClose) {
                     stopTiming()
@@ -60,12 +64,4 @@ class DefaultAntiIndulged(val clock: Clock, val factory: ReminderFactory) : Anti
 
     override val coroutineContext: CoroutineContext
         get() = clock
-
-    companion object {
-        const val MINUTES_1: Long = 60 * 1000
-        const val CYCLE: Long = MINUTES_1
-        const val MINUTES_10: Long = 10 * MINUTES_1
-        const val MINUTES_5: Long = 5 * MINUTES_1
-        const val MINUTES_0: Long = 0
-    }
 }
