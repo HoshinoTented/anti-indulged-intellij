@@ -13,7 +13,7 @@ abstract class AbstractAntiIndulgedReminderFactory : ReminderFactory {
 
         return if (rest.rem(5) == 0L) {
             when (rest.div(5)) {
-                1L, 10L -> takeRest(clock)
+                in 1L..5L -> takeRest(clock)
                 0L -> forceExit(clock)
                 else -> normal(clock)
             }
