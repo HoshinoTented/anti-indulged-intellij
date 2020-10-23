@@ -9,7 +9,6 @@ class DefaultAntiIndulged(val clock: Clock, val factory: ReminderFactory) : Anti
     override val isActive: Boolean
         get() = timer?.isActive == true
 
-    // TODO: 考虑改进这个函数的实现
     @Synchronized
     override fun startTiming() {
         println("Trying to start timing...")

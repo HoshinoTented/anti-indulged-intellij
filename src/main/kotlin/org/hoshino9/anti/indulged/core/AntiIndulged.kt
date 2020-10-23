@@ -9,7 +9,7 @@ interface AntiIndulged {
 
     /**
      * stop timing
-     * it should stop timing after [startTiming], and write rewrite [LimitData.lastUsed] and [LimitData.accMinutes]
+     * it should stop timing after [startTiming]
      */
     fun stopTiming()
 

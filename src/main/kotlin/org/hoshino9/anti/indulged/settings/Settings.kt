@@ -12,7 +12,7 @@ import org.hoshino9.anti.indulged.today
     name = "org.hoshino9.anti.indulged.settings.LimitDataSettings",
     storages = [Storage("antiIndulged.xml")]
 )
-class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
+class Settings : PersistentStateComponent<Settings>, Clock {
     var lastUpdate: Long = 20201012L
     var accMinutes: Long = 0L
     var limitMinutes: Long = 90L            // 1.5h
@@ -28,37 +28,38 @@ class LimitDataSettings : PersistentStateComponent<LimitDataSettings>, Clock {
     override val rest: Long
         get() = limitMinutes - accMinutes
 
-    override fun getState(): LimitDataSettings? {
+    override fun getState(): Settings? {
         return this
     }
 
-    override fun loadState(state: LimitDataSettings) {
+    override fun loadState(state: Settings) {
         XmlSerializerUtil.copyBean(state, this)
 
-        val today = today
-        if (today > lastUpdate) {
-            lastUpdate = today
-            accMinutes = 0
-        }
+        checkNextDay()
     }
 
     companion object {
-        val INSTANCE: LimitDataSettings
+        val INSTANCE: Settings
             get() {
-                return ServiceManager.getService(LimitDataSettings::class.java)
+                return ServiceManager.getService(Settings::class.java)
             }
     }
 
     override fun increase() {
+        if (! checkNextDay()) {
+            accMinutes += 1
+        }
+    }
+
+    private fun checkNextDay(): Boolean {
         val today = today
 
         if (today > lastUpdate) {
+            lastUpdate = today
             accMinutes = 0
-        } else {
-            accMinutes += 1
-        }
 
-        lastUpdate = today
+            return true
+        } else return false
     }
 
     override fun toString(): String {
