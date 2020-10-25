@@ -3,8 +3,6 @@
     <name>Anti-Indulged</name>
     <vendor email="limbolrain@gmail.com" url="https://github.com/HoshinoTented">Hoshino Tented</vendor>
 
-    <description><![CDATA[]]></description>
-
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>

@@ -6,6 +6,7 @@ plugins {
 group = "org.hoshino9.anti.indulged"
 version = "0.0.1"
 
+val intellijPublishToken: String by ext
 val coroutinesVersion: String by ext
 
 repositories {
@@ -24,8 +25,15 @@ intellij {
     version = "2020.2.3"
 }
 
+tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
+    channels("beta")
+    token(intellijPublishToken)
+}
+
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
-    changeNotes("""
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>""")
+    val root = "src/main/resources"
+
+    version(rootProject.version)
+    changeNotes(file("$root/change-notes.html").readText())
+    pluginDescription(file("$root/description.html").readText())
 }
