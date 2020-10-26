@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.hoshino9.anti.indulged"
-version = "0.0.1"
+version = "0.0.2"
 
 val intellijPublishToken: String by ext
 val coroutinesVersion: String by ext
