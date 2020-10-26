@@ -19,7 +19,7 @@ object AntiIndulgedNotification : AbstractAntiIndulgedReminderFactory() {
             app.invokeLater {
                 DialogBuilder().apply {
                     setTitle("Anti-Indulged")
-                    setErrorText("亲爱的社畜码农，您今日的可用编程时间已用完，请注意休息。")
+                    setErrorText("关掉，关掉，一定要关掉！再不关掉那些编程软件，社畜哪有美好的未来，哪有美好的前程，祖国哪有栋梁之材？")
                 }.showAndGet()
 
                 projectManager.openProjects.forEach {
