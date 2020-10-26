@@ -11,26 +11,12 @@ import org.hoshino9.anti.indulged.core.ReminderFactory
 import org.hoshino9.anti.indulged.projectManager
 
 object AntiIndulgedNotification : AbstractAntiIndulgedReminderFactory() {
-    object ForceExitReminder : ReminderFactory.Reminder {
-        override val shouldClose: Boolean = true
-        override fun remind() {
-            val app = ApplicationManager.getApplication()
+    object ForceExitReminder : BaseForceExitReminder {
+        override val content: String
+            get() = "关掉，关掉，一定要关掉！再不关掉那些编程软件，社畜哪有美好的未来，哪有美好的前程，祖国哪有栋梁之材？"
 
-            app.invokeLater {
-                DialogBuilder().apply {
-                    setTitle("Anti-Indulged")
-                    setErrorText("关掉，关掉，一定要关掉！再不关掉那些编程软件，社畜哪有美好的未来，哪有美好的前程，祖国哪有栋梁之材？")
-                }.showAndGet()
-
-                projectManager.openProjects.forEach {
-                    if (! it.isDisposed) {
-                        projectManager.closeAndDispose(it)
-                    }
-                }
-
-                ApplicationManager.getApplication().exit(true, false, false)
-            }
-        }
+        override val title: String
+            get() = "Anti-Indulged"
     }
 
     class SimpleReminder(private val rest: Long) : ReminderFactory.Reminder {
