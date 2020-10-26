@@ -26,7 +26,7 @@ intellij {
 }
 
 tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
-    channels("beta")
+    channels("stable")
     token(intellijPublishToken)
 }
 
