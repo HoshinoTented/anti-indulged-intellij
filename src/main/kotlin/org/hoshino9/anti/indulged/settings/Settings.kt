@@ -8,6 +8,7 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 import org.hoshino9.anti.indulged.core.Clock
 import org.hoshino9.anti.indulged.today
 
+// TODO: 考虑不直接将 Settings 实现 Clock
 @State(
     name = "org.hoshino9.anti.indulged.settings.LimitDataSettings",
     storages = [Storage("antiIndulged.xml")]
