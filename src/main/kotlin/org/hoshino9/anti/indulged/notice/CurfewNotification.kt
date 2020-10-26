@@ -4,7 +4,7 @@ import org.hoshino9.anti.indulged.core.Clock
 import org.hoshino9.anti.indulged.core.ReminderFactory
 import java.util.*
 
-object StayUpProtect : ReminderFactory {
+object CurfewNotification : ReminderFactory {
     object Reminder : BaseForceExitReminder {
         override val title: String
             get() = "Anti-Indulged"

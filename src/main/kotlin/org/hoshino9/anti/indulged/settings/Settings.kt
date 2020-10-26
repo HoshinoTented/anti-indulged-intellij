@@ -17,7 +17,7 @@ class Settings : PersistentStateComponent<Settings>, Clock {
     var lastUpdate: Long = 20201012L
     var accMinutes: Long = 0L
     var limitMinutes: Long = 90L            // 1.5h
-    var stayUpProtect: Boolean = true
+    var curfew: Boolean = true
 
     override var maximum: Long = limitMinutes
 
