@@ -10,7 +10,7 @@ object CurfewNotification : ReminderFactory {
             get() = "Anti-Indulged"
 
         override val content: String
-            get() = "夜深了，野生的社畜也回巢休息了。它的伴侣和孩子们都已经熟睡，而唯独你还在为了生活而奋斗。休息吧~休息吧~"
+            get() = "夜深了，野生的社畜也回巢休息了。<br/>它的伴侣和孩子们都已经熟睡，而唯独你还在为了生活而奋斗。<br/>休息吧~休息吧~"
     }
 
     val isNightTime: Boolean

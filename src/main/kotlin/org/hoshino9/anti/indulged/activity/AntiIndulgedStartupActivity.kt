@@ -12,17 +12,28 @@ import org.hoshino9.anti.indulged.projectManager
 import org.hoshino9.anti.indulged.settings.Settings
 
 class AntiIndulgedStartupActivity : StartupActivity, DumbAware {
+    private fun loadAntiIndulged() {
+        broadcast.add(AntiIndulgedNotification)
+    }
+
+    private fun loadCurfew() {
+        if (Settings.INSTANCE.curfew) {
+            broadcast.add(CurfewNotification)
+        }
+    }
+
+    private fun loadFeatures(project: Project) {
+        loadCurfew()
+        loadAntiIndulged()
+    }
+
     override fun runActivity(project: Project) {
         println("Project ${project.name} is opened")
 
         val anti = globalAnti.get()
 
         if (! anti.isActive) {
-            if (Settings.INSTANCE.curfew) {          // 尝试把这一步作为 StayUpProtect 的一个函数？
-                broadcast.add(CurfewNotification)
-            }
-
-            broadcast.add(AntiIndulgedNotification)
+            loadFeatures(project)
             anti.startTiming()
         }
 

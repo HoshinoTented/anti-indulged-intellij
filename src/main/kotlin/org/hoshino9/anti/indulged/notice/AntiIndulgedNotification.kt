@@ -13,7 +13,7 @@ import org.hoshino9.anti.indulged.projectManager
 object AntiIndulgedNotification : AbstractAntiIndulgedReminderFactory() {
     object ForceExitReminder : BaseForceExitReminder {
         override val content: String
-            get() = "关掉，关掉，一定要关掉！再不关掉那些编程软件，社畜哪有美好的未来，哪有美好的前程，祖国哪有栋梁之材？"
+            get() = "关掉，关掉，一定要关掉！<br/>再不关掉那些编程软件，社畜哪有美好的未来，哪有美好的前程？<br/>祖国哪有栋梁之材？"
 
         override val title: String
             get() = "Anti-Indulged"
@@ -22,7 +22,7 @@ object AntiIndulgedNotification : AbstractAntiIndulgedReminderFactory() {
     class SimpleReminder(private val rest: Long) : ReminderFactory.Reminder {
         override val shouldClose: Boolean = false
         override fun remind() {
-            val content = "亲爱的社畜码农，您今日的可用编程时间剩余 $rest 分钟"
+            val content = "亲爱的社畜码农<br/>您今日的可用编程时间剩余 $rest 分钟"
             notice(content)
         }
     }
@@ -30,7 +30,7 @@ object AntiIndulgedNotification : AbstractAntiIndulgedReminderFactory() {
     class TakeRestReminder(private val rest: Long) : ReminderFactory.Reminder {
         override val shouldClose: Boolean = false
         override fun remind() {
-            val content = "亲爱的社畜码农，您今日的可用编程时间剩余 $rest 分钟，请注意休息。"
+            val content = "亲爱的社畜码农<br/>您今日的可用编程时间剩余 $rest 分钟，请注意休息。"
             notice(content)
         }
     }
