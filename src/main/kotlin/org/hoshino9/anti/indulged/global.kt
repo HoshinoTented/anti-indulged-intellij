@@ -6,7 +6,8 @@ import com.intellij.openapi.project.ProjectManager
 import org.hoshino9.anti.indulged.core.AntiIndulged
 import org.hoshino9.anti.indulged.core.DefaultAntiIndulged
 import org.hoshino9.anti.indulged.core.ReminderBroadcast
-import org.hoshino9.anti.indulged.settings.Settings
+import org.hoshino9.anti.indulged.data.CalendarConverter.clearly
+import org.hoshino9.anti.indulged.data.Settings
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 
@@ -23,19 +24,21 @@ val projectManager: ProjectManager
 val application: Application
     get() = ApplicationManager.getApplication()
 
-internal fun todayOf(calendar: Calendar): Long {
-    var today = 0L
-
-    today += calendar[Calendar.YEAR]
-    today *= 100
-    today += calendar[Calendar.MONTH] + 1
-    today *= 100
-    today += calendar[Calendar.DAY_OF_MONTH]
-
-    return today
-}
-
-val today: Long
+//internal fun todayOf(calendar: Calendar): Long {
+//    var today = 0L
+//
+//    today += calendar[Calendar.YEAR]
+//    today *= 100
+//    today += calendar[Calendar.MONTH] + 1
+//    today *= 100
+//    today += calendar[Calendar.DAY_OF_MONTH]
+//
+//    return today
+//}
+//
+val today: Calendar
     get() {
-        return todayOf(Calendar.getInstance())
+        return Calendar.getInstance().clearly()
     }
+
+val currentDate: Calendar get() = Calendar.getInstance().clearly()

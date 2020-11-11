@@ -1,12 +1,15 @@
-package org.hoshino9.anti.indulged.settings
+package org.hoshino9.anti.indulged.data
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
+import com.intellij.util.xmlb.annotations.OptionTag
 import org.hoshino9.anti.indulged.core.Clock
+import org.hoshino9.anti.indulged.currentDate
 import org.hoshino9.anti.indulged.today
+import java.util.*
 
 // TODO: 考虑不直接将 Settings 实现 Clock
 @State(
@@ -14,7 +17,8 @@ import org.hoshino9.anti.indulged.today
     storages = [Storage("antiIndulged.xml")]
 )
 class Settings : PersistentStateComponent<Settings>, Clock {
-    var lastUpdate: Long = 20201012L
+    @OptionTag(converter = CalendarConverter::class)
+    var lastUpdate: Calendar = CalendarConverter.DEFAULT
     var accMinutes: Long = 0L
     var limitMinutes: Long = 90L            // 1.5h
     var curfew: Boolean = true
@@ -54,10 +58,10 @@ class Settings : PersistentStateComponent<Settings>, Clock {
     }
 
     private fun checkNextDay(): Boolean {
-        val today = today
+        val today = currentDate
 
         if (today > lastUpdate) {
-            lastUpdate = today
+            lastUpdate = currentDate
             accMinutes = 0
 
             return true

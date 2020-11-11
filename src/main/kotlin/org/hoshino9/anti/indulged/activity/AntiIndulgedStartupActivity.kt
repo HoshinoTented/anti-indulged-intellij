@@ -9,7 +9,7 @@ import org.hoshino9.anti.indulged.broadcast
 import org.hoshino9.anti.indulged.notice.AntiIndulgedNotification
 import org.hoshino9.anti.indulged.notice.CurfewNotification
 import org.hoshino9.anti.indulged.projectManager
-import org.hoshino9.anti.indulged.settings.Settings
+import org.hoshino9.anti.indulged.data.Settings
 
 class AntiIndulgedStartupActivity : StartupActivity, DumbAware {
     private fun loadAntiIndulged() {
