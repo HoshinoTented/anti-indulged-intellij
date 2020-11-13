@@ -23,16 +23,14 @@ class Settings : PersistentStateComponent<Settings>, Clock {
     var limitMinutes: Long = 90L            // 1.5h
     var curfew: Boolean = true
 
-    override var maximum: Long = limitMinutes
+    override val maximum: Long
+        get() = (if (lastUpdate.isHoliday()) 2 else 1) * limitMinutes
 
     override val cycle: Long
         get() = 60 * 1000
 
     override val currentTime: Long
         get() = accMinutes
-
-    override val rest: Long
-        get() = limitMinutes - accMinutes
 
     override fun getState(): Settings? {
         return this
@@ -60,15 +58,15 @@ class Settings : PersistentStateComponent<Settings>, Clock {
     private fun checkNextDay(): Boolean {
         val today = currentDate
 
-        if (today > lastUpdate) {
+        return if (today > lastUpdate) {
             lastUpdate = currentDate
             accMinutes = 0
 
-            return true
-        } else return false
+            true
+        } else false
     }
 
     override fun toString(): String {
-        return "($lastUpdate, $accMinutes, $limitMinutes)"
+        return "(${lastUpdate.timeInMillis}, $accMinutes ($currentTime), $limitMinutes ($maximum))"
     }
 }

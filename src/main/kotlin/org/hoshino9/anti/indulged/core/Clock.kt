@@ -23,6 +23,9 @@ interface Clock : CoroutineContext.Element {
      * 剩余时刻
      */
     val rest: Long
+        get() {
+            return maximum - currentTime
+        }
 
     /**
      * Clock 所能走的最多的时刻

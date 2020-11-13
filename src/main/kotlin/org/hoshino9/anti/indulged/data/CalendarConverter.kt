@@ -37,3 +37,9 @@ object CalendarConverter : com.intellij.util.xmlb.Converter<Calendar>() {
         return this
     }
 }
+
+fun Calendar.isHoliday(): Boolean {
+    val today = get(Calendar.DAY_OF_WEEK)
+
+    return today == Calendar.SUNDAY || today == Calendar.SATURDAY
+}
