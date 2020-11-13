@@ -2,9 +2,11 @@ name: nightly (buggy)
 
 on:
   push:
-    - master
+    branches:
+      - master
   pull_reqest:
-    - master
+    branches:
+      - master
 
 jobs:
   build:
