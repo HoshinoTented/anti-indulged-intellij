@@ -1,0 +1,23 @@
+name: nightly (buggy)
+
+on:
+  push:
+    - master
+  pull_reqest:
+    - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: ./graldew buildPlugin
+
+      - name: Upload
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: anti-indulged-intellij
+          path: anti-indulged-intellij/build/distributions
