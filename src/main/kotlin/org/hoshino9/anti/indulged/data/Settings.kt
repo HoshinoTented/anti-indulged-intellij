@@ -42,6 +42,10 @@ class Settings : PersistentStateComponent<Settings>, Clock {
         checkNextDay()
     }
 
+    override fun noStateLoaded() {
+        checkNextDay()
+    }
+
     companion object {
         val INSTANCE: Settings
             get() {
