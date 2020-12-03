@@ -33,6 +33,9 @@ tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
     val root = "src/main/resources"
 
+    sinceBuild("193")
+    untilBuild("514.*")
+
     version(rootProject.version)
     changeNotes(file("$root/change-notes.html").readText())
     pluginDescription(file("$root/description.html").readText())
