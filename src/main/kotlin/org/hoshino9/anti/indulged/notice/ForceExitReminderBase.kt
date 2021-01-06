@@ -5,7 +5,7 @@ import com.intellij.openapi.ui.DialogBuilder
 import org.hoshino9.anti.indulged.core.ReminderFactory
 import org.hoshino9.anti.indulged.projectManager
 
-interface BaseForceExitReminder : ReminderFactory.Reminder {
+interface ForceExitReminderBase : ReminderFactory.Reminder {
     val title: String
     val content: String
 

@@ -22,13 +22,13 @@ object CalendarConverter : com.intellij.util.xmlb.Converter<Calendar>() {
             val date = value.toLong()
             val calendar = fromDate(date)
 
-            calendar.clearly()
+            calendar.truncate()
 
             calendar
         }.getOrNull()
     }
 
-    fun Calendar.clearly(): Calendar {
+    fun Calendar.truncate(): Calendar {
         set(Calendar.HOUR_OF_DAY, 0)
         set(Calendar.MINUTE, 0)
         set(Calendar.SECOND, 0)

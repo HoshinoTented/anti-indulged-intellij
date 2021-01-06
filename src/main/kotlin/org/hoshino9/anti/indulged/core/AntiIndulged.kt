@@ -14,7 +14,7 @@ interface AntiIndulged {
     fun stopTiming()
 
     /**
-     * return true if current anti-indulged is timming
+     * return true if current anti-indulged is timing
      */
     val isActive: Boolean
 }

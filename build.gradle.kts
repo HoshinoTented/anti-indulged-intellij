@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.intellij") version "0.4.16"
+    id("org.jetbrains.intellij") version "0.6.5"
     kotlin("jvm") version "1.3.70"
 }
 
@@ -23,7 +23,11 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = "2020.2.3"
+    instrumentCode = true
+
 }
+
+tasks["buildSearchableOptions"].enabled = false
 
 tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
     channels("stable")

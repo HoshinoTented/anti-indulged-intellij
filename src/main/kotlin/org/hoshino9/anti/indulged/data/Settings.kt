@@ -4,16 +4,18 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
+import com.intellij.openapi.options.Configurable
 import com.intellij.util.xmlb.XmlSerializerUtil
 import com.intellij.util.xmlb.annotations.OptionTag
+import org.hoshino9.anti.indulged.GlobalAntiManager
 import org.hoshino9.anti.indulged.core.Clock
 import org.hoshino9.anti.indulged.currentDate
-import org.hoshino9.anti.indulged.today
 import java.util.*
+import javax.swing.JComponent
 
 // TODO: 考虑不直接将 Settings 实现 Clock
 @State(
-    name = "org.hoshino9.anti.indulged.settings.LimitDataSettings",
+    name = "org.hoshino9.anti.indulged.data.Settings",
     storages = [Storage("antiIndulged.xml")]
 )
 class Settings : PersistentStateComponent<Settings>, Clock {
@@ -46,13 +48,6 @@ class Settings : PersistentStateComponent<Settings>, Clock {
         checkNextDay()
     }
 
-    companion object {
-        val INSTANCE: Settings
-            get() {
-                return ServiceManager.getService(Settings::class.java)
-            }
-    }
-
     override fun increase() {
         if (! checkNextDay()) {
             accMinutes += 1
@@ -72,5 +67,12 @@ class Settings : PersistentStateComponent<Settings>, Clock {
 
     override fun toString(): String {
         return "(${lastUpdate.timeInMillis}, $accMinutes ($currentTime), $limitMinutes ($maximum))"
+    }
+
+    companion object {
+        val INSTANCE: Settings
+            get() {
+                return ServiceManager.getService(Settings::class.java)
+            }
     }
 }

@@ -4,14 +4,11 @@ import com.intellij.notification.NotificationDisplayType
 import com.intellij.notification.NotificationGroup
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
-import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.ui.DialogBuilder
 import org.hoshino9.anti.indulged.core.Clock
 import org.hoshino9.anti.indulged.core.ReminderFactory
-import org.hoshino9.anti.indulged.projectManager
 
 object AntiIndulgedNotification : AbstractAntiIndulgedReminderFactory() {
-    object ForceExitReminder : BaseForceExitReminder {
+    object ForceExitReminder : ForceExitReminderBase {
         override val content: String
             get() = "关掉，关掉，一定要关掉！<br/>再不关掉那些编程软件，社畜哪有美好的未来，哪有美好的前程？<br/>祖国哪有栋梁之材？"
 

@@ -14,4 +14,8 @@ class ReminderBroadcast : ReminderFactory {
     fun add(factory: ReminderFactory): Boolean {
         return reminders.add(factory)
     }
+
+    fun clear() {
+        reminders.clear()
+    }
 }
