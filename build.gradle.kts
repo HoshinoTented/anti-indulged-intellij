@@ -3,6 +3,12 @@ plugins {
     kotlin("jvm") version "1.3.70"
 }
 
+sourceSets {
+    main {
+        java.srcDirs("src/main/kotlin")
+    }
+}
+
 group = "org.hoshino9.anti.indulged"
 version = "0.0.2"
 

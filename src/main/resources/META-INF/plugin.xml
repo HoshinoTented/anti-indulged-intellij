@@ -10,6 +10,9 @@
     <extensions defaultExtensionNs="com.intellij">
         <postStartupActivity implementation="org.hoshino9.anti.indulged.activity.AntiIndulgedStartupActivity"/>
         <applicationService serviceImplementation="org.hoshino9.anti.indulged.data.Settings"/>
+
+        <applicationConfigurable parentId="tools" id="org.hoshino9.anti.indulged.data.ui.SettingsUIImpl"
+                                 instance="org.hoshino9.anti.indulged.data.ui.SettingsUIImpl"/>
         <!-- Add your extensions here -->
     </extensions>
 
