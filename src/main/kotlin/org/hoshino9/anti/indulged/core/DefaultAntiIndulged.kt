@@ -25,10 +25,7 @@ class DefaultAntiIndulged(
 
         timer = launch(this.coroutineContext) {
             while (isActive) {
-                val clock = coroutineContext[Clock.Key] ?: throw NoSuchElementException("Clock.Key not found")
-
-                logger.info(clock.toString())
-                val reminder = factory.newInstance(clock)
+                val reminder = newReminder()
 
                 if (reminder.shouldClose) {
                     stopTiming()
@@ -38,7 +35,6 @@ class DefaultAntiIndulged(
 
                 clock.increase()
                 reminder.remind()
-
                 delay(clock.cycle)
             }
         }
@@ -62,6 +58,12 @@ class DefaultAntiIndulged(
         if (timer?.isActive == true) {
             timer?.join()
         }
+    }
+
+    fun newReminder(): ReminderFactory.Reminder {
+        val clock = coroutineContext[Clock.Key] ?: throw NoSuchElementException("Clock.Key not found")
+
+        return factory.newInstance(clock)
     }
 
     override val coroutineContext: CoroutineContext

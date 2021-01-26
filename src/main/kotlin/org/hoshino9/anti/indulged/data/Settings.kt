@@ -18,7 +18,8 @@ import javax.swing.JComponent
 // TODO: 考虑不直接将 Settings 实现 Clock
 @State(
     name = "org.hoshino9.anti.indulged.data.Settings",
-    storages = [Storage("antiIndulged.xml")]
+    storages = [Storage("antiIndulged.xml")],
+    reloadable = false
 )
 class Settings : PersistentStateComponent<Settings>, Clock {
     @OptionTag(converter = CalendarConverter::class)
