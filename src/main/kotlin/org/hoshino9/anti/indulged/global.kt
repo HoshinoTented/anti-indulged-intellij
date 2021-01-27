@@ -2,6 +2,7 @@ package org.hoshino9.anti.indulged
 
 import com.intellij.openapi.application.Application
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.ProjectManager
 import org.hoshino9.anti.indulged.core.AntiIndulged
 import org.hoshino9.anti.indulged.core.ConsoleLogger
@@ -16,13 +17,13 @@ import java.util.concurrent.atomic.AtomicReference
 
 
 object GlobalAntiManager {
-    val logger = ConsoleLogger
+    val logger = LoggerWrapper(Logger.getInstance("Anti-Indulged"))
 
     val broadcast: ReminderBroadcast = ReminderBroadcast()
 
-    val globalAnti: AtomicReference<AntiIndulged> by lazy {
+    val globalAnti: AtomicReference<DefaultAntiIndulged> by lazy {
         val anti = DefaultAntiIndulged(Settings.INSTANCE, broadcast, logger)
-        AtomicReference<AntiIndulged>(anti)
+        AtomicReference(anti)
     }
 
     private fun loadAntiIndulged() {

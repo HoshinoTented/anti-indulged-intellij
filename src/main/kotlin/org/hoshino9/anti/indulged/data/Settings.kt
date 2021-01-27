@@ -4,16 +4,11 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
-import com.intellij.openapi.options.Configurable
 import com.intellij.util.xmlb.XmlSerializerUtil
 import com.intellij.util.xmlb.annotations.OptionTag
-import org.hoshino9.anti.indulged.GlobalAntiManager
 import org.hoshino9.anti.indulged.core.Clock
 import org.hoshino9.anti.indulged.currentDate
-import org.hoshino9.anti.indulged.data.ui.SettingsUI
-import org.hoshino9.anti.indulged.data.ui.SettingsUIImpl
 import java.util.*
-import javax.swing.JComponent
 
 // TODO: 考虑不直接将 Settings 实现 Clock
 @State(
